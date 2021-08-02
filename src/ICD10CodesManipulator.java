@@ -11,7 +11,7 @@ public class ICD10CodesManipulator {
     private HashMap<String, ICDNode> codeToNode;
     private ArrayList<String> allCodesList;
     private ArrayList<String> allCodesListNoDots;
-    private HashMap<String, Integer> codeToIndexDictionary;
+    private HashMap<String, Integer> codeToIndexMap;
 
 
     public static void main(String[] args) throws IOException {
@@ -27,7 +27,6 @@ public class ICD10CodesManipulator {
         } catch (Exception e){
             throw new IOException(e);
         }
-
 
         document.getDocumentElement().normalize();
 
@@ -45,13 +44,18 @@ public class ICD10CodesManipulator {
         }
 
         this.chapterList=new ArrayList<>();
+        this.codeToNode=new HashMap<>();
         for(Element chapter: chapterElementsList){
             chapterList.add(new ICDNode(chapter));
         }
+        this.allCodesList= new ArrayList<>();
+        this.allCodesListNoDots=new ArrayList<>();
+        this.codeToIndexMap=new HashMap<>();
 
         for(ICDNode chapter: chapterList){
             printICDNode(chapter);
         }
+
     }
 
     private void printICDNode(ICDNode node){
@@ -96,6 +100,8 @@ public class ICD10CodesManipulator {
             for(ICDNode icdChild:this.children){
                 icdChild.parent=this;
             }
+            //adds node to codeToNode HashMap
+            codeToNode.put(this.name,this);
         }
 
         private String getName(){
