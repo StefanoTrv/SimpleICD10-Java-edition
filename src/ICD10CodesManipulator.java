@@ -70,7 +70,7 @@ public class ICD10CodesManipulator {
             this.description=description;
             this.type=type;
             this.parent=parent;
-            this.children=(ArrayList<ICDNode>) children.clone();
+            this.children= children;
         }
 
         public String getName(){
@@ -90,7 +90,7 @@ public class ICD10CodesManipulator {
         }
 
         public ArrayList<ICDNode> getChildren(){
-            return (ArrayList<ICDNode>) this.children.clone();
+            return this.children;
         }
     }
 }
