@@ -52,10 +52,33 @@ public class ICD10CodesManipulator {
         this.allCodesListNoDots=new ArrayList<>();
         this.codeToIndexMap=new HashMap<>();
 
-        for(ICDNode chapter: chapterList){
-            printICDNode(chapter);
+        //initializes the two lists of codes
+        for(ICDNode chapter: this.chapterList){
+            addTreeToList(chapter);
         }
+    }
 
+    private String addDotToCode(String code){
+        if(code.length()<4 || code.charAt(3)=='.'){
+            return code;
+        } else if(codeToNode.containsKey(code.substring(0,3)+"."+code.substring(3))){
+            return code.substring(0,3)+"."+code.substring(3);
+        } else {
+            return code;
+        }
+    }
+
+    private void addTreeToList(ICDNode node){
+        String name = node.name;
+        this.allCodesList.add(name);
+        if(name.length()>4 && name.charAt(3)=='.'){
+            allCodesListNoDots.add(name.substring(0,3)+name.substring(4));
+        }else{
+            allCodesListNoDots.add(name);
+        }
+        for(ICDNode child: node.getChildren()){
+            addTreeToList(child);
+        }
     }
 
     private void printICDNode(ICDNode node){
