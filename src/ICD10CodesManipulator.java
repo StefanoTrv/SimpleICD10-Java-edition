@@ -16,6 +16,11 @@ public class ICD10CodesManipulator {
 
     public static void main(String[] args) throws IOException {
         ICD10CodesManipulator icd = new ICD10CodesManipulator();
+        System.out.println(icd.getDescription("A15.1"));
+        System.out.println(icd.getParent("A15.1"));
+        System.out.println(icd.getChildren("A15"));
+        System.out.println(icd.isLeaf("A15.1"));
+        System.out.println(icd.isLeaf("A15"));
     }
 
     public ICD10CodesManipulator() throws IOException {
@@ -55,16 +60,6 @@ public class ICD10CodesManipulator {
         //initializes the two lists of codes
         for(ICDNode chapter: this.chapterList){
             addTreeToList(chapter);
-        }
-    }
-
-    private String addDotToCode(String code){
-        if(code.length()<4 || code.charAt(3)=='.'){
-            return code;
-        } else if(codeToNode.containsKey(code.substring(0,3)+"."+code.substring(3))){
-            return code.substring(0,3)+"."+code.substring(3);
-        } else {
-            return code;
         }
     }
 
@@ -147,4 +142,104 @@ public class ICD10CodesManipulator {
             return this.children;
         }
     }
+
+    private String addDotToCode(String code){
+        if(code.length()<4 || code.charAt(3)=='.'){
+            return code;
+        } else if(codeToNode.containsKey(code.substring(0,3)+"."+code.substring(3))){
+            return code.substring(0,3)+"."+code.substring(3);
+        } else {
+            return code;
+        }
+    }
+
+    public boolean isValidItem(String code){
+        return codeToNode.containsKey(code) || code.length()>=4 && codeToNode.containsKey(code.substring(0,3)+"."+code.substring(3));
+    }
+
+    public boolean isChapter(String code){
+        code = addDotToCode(code);
+        if (codeToNode.containsKey(code)){
+            return codeToNode.get(code).getType().equals("chapter");
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isBlock(String code){
+        code = addDotToCode(code);
+        if (codeToNode.containsKey(code)){
+            return codeToNode.get(code).getType().equals("block");
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isCategory(String code){
+        code = addDotToCode(code);
+        if (codeToNode.containsKey(code)){
+            return codeToNode.get(code).getType().equals("category");
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isSubcategory(String code){
+        code = addDotToCode(code);
+        if (codeToNode.containsKey(code)){
+            return codeToNode.get(code).getType().equals("subcategory");
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isChapterOrBlock(String code){
+        return isBlock(code)||isChapter(code);
+    }
+
+    public boolean isCategoryOrSubcategory(String code){
+        return isCategory(code)||isSubcategory(code);
+    }
+
+    public String getDescription(String code) throws IllegalArgumentException{
+        if(!isValidItem(code)){
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+        }
+        return codeToNode.get(addDotToCode(code)).getDescription();
+    }
+
+    public String getParent(String code) throws IllegalArgumentException{
+        if(!isValidItem(code)){
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+        }
+        ICDNode parentNode = codeToNode.get(addDotToCode(code)).getParent();
+        if(parentNode==null){
+            return "";
+        } else {
+            return parentNode.name;
+        }
+    }
+
+    public ArrayList<String> getChildren(String code) throws IllegalArgumentException{
+        if(!isValidItem(code)){
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+        }
+        ArrayList<ICDNode> childrenNodes = codeToNode.get(addDotToCode(code)).getChildren();
+        ArrayList<String> result = new ArrayList<>();
+        for(ICDNode child: childrenNodes){
+            result.add(child.getName());
+        }
+        return result;
+    }
+
+    public boolean isLeaf(String code) throws IllegalArgumentException{
+        if(!isValidItem(code)){
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+        }
+        ArrayList<ICDNode> childrenNodes = codeToNode.get(addDotToCode(code)).getChildren();
+        return childrenNodes.size()==0;
+    }
+
+
+
 }
