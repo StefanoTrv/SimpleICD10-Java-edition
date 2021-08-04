@@ -13,16 +13,6 @@ public class ICD10CodesManipulator {
     private ArrayList<String> allCodesListNoDots;
     private HashMap<String, Integer> codeToIndexMap;
 
-
-    public static void main(String[] args) throws IOException {
-        ICD10CodesManipulator icd = new ICD10CodesManipulator();
-        System.out.println(icd.getDescription("A15.1"));
-        System.out.println(icd.getParent("A15.1"));
-        System.out.println(icd.getChildren("A15"));
-        System.out.println(icd.isLeaf("A15.1"));
-        System.out.println(icd.isLeaf("A15"));
-    }
-
     public ICD10CodesManipulator() throws IOException {
         Document document;
         try{
@@ -240,6 +230,98 @@ public class ICD10CodesManipulator {
         return childrenNodes.size()==0;
     }
 
+    public ArrayList<String> getAncestors(String code) throws IllegalArgumentException{
+        if(!isValidItem(code)){
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+        }
+        ICDNode node = codeToNode.get(addDotToCode(code));
+        ArrayList<String> result = new ArrayList<>();
+        while (node.getParent()!=null){
+            result.add(node.getParent().getName());
+            node = node.getParent();
+        }
+        return result;
+    }
 
+    public ArrayList<String> getDescendants(String code) throws IllegalArgumentException{
+        if(!isValidItem(code)){
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+        }
+        ICDNode node = codeToNode.get(addDotToCode(code));
+        ArrayList<String> result = new ArrayList<>();
+        addChildrenToList(node,result);
+        return result;
+    }
+
+    private void addChildrenToList(ICDNode node, ArrayList<String> list){
+        for(ICDNode child: node.getChildren()){
+            list.add(child.name);
+            addChildrenToList(child,list);
+        }
+    }
+
+    public boolean isAncestor(String a, String b) throws IllegalArgumentException{
+        if(!isValidItem(a)){
+            throw new IllegalArgumentException("\""+a+"\" is not a valid ICD 10 code.");
+        }
+        ICDNode node = codeToNode.get(addDotToCode(a));
+        return getAncestors(b).contains(a) && !a.equals(b);
+    }
+
+    public boolean isDescendant(String a, String b) throws IllegalArgumentException{
+        return isAncestor(b,a);
+    }
+
+    public String getNearestCommonAncestor(String a, String b) throws IllegalArgumentException{
+        ArrayList<String> ancestorsA = getAncestors(a);
+        ancestorsA.add(0,addDotToCode(a));
+        ArrayList<String> ancestorsB = getAncestors(b);
+        ancestorsB.add(0,addDotToCode(b));
+        if(ancestorsB.size()>ancestorsA.size()){
+            ArrayList<String> temp = ancestorsA;
+            ancestorsA = ancestorsB;
+            ancestorsB = temp;
+        }
+        for(String ancestor: ancestorsA){
+            if (ancestorsB.contains(ancestor)){
+                return ancestor;
+            }
+        }
+        return "";
+    }
+
+    public ArrayList<String> getAllCodes(boolean withDots){
+        if (withDots){
+            return (ArrayList<String>) allCodesList.clone();
+        } else {
+            return (ArrayList<String>) allCodesListNoDots.clone();
+        }
+    }
+
+    public ArrayList<String> getAllCodes(){
+        return getAllCodes(true);
+    }
+
+    public int getIndex(String code) throws IllegalArgumentException{
+        if(!isValidItem(code)){
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+        }
+        code = addDotToCode(code);
+        if (codeToIndexMap.containsKey(code)){
+            return codeToIndexMap.get(code);
+        } else {
+            int i = allCodesList.indexOf(code);
+            codeToIndexMap.put(code,i);
+            return i;
+        }
+    }
+
+    public String removeDot(String code) throws IllegalArgumentException{
+        return allCodesListNoDots.get(getIndex(code));
+    }
+
+    public String addDot(String code) throws IllegalArgumentException{
+        return allCodesList.get(getIndex(code));
+    }
 
 }
