@@ -5,6 +5,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/*
+An object that contains the whole ICD-10 classification and that can thus provide information about the whole classification or about single codes.
+ */
 public class ICD10CodesManipulator {
 
     private ArrayList<ICDNode> chapterList;
@@ -13,6 +16,10 @@ public class ICD10CodesManipulator {
     private ArrayList<String> allCodesListNoDots;
     private HashMap<String, Integer> codeToIndexMap;
 
+    /*
+    The constructor that reads the data from the xml file to load all the data relative to the ICD-10 classification.
+    Throws: IOException if an error occurs while trying to read the file (or if there's a configuration error relative to the DOM objects)
+     */
     public ICD10CodesManipulator() throws IOException {
         Document document;
         try{
@@ -53,6 +60,9 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    Private methods that takes an ICDNode and adds it and its children (their String representation) to allCodesList and allCodesListNoDots, with a depth-first pre-order visit.
+     */
     private void addTreeToList(ICDNode node){
         String name = node.name;
         this.allCodesList.add(name);
@@ -73,6 +83,9 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    Private class that represents a single node of the tree of ICD-10 codes.
+     */
     private class ICDNode{
         private String name;
         private String description;
@@ -133,6 +146,9 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    Private method used to add the dot to a code without having to check whether the code is valid.
+     */
     private String addDotToCode(String code){
         if(code.length()<4 || code.charAt(3)=='.'){
             return code;
@@ -143,10 +159,20 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    It checks whether a String is a valid chapter, block, category or subcategory in ICD-10.
+    Parameters: code is the String that must be checked
+    Returns: true if code is a valid ICD-10 code, otherwise false
+     */
     public boolean isValidItem(String code){
         return codeToNode.containsKey(code) || code.length()>=4 && codeToNode.containsKey(code.substring(0,3)+"."+code.substring(3));
     }
 
+    /*
+    It checks whether a String is a valid chapter in ICD-10.
+    Parameters: code is the String that must be checked
+    Returns: true if code is a valid ICD-10 chapter, otherwise false
+     */
     public boolean isChapter(String code){
         code = addDotToCode(code);
         if (codeToNode.containsKey(code)){
@@ -156,6 +182,11 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    It checks whether a String is a valid block in ICD-10.
+    Parameters: code is the String that must be checked
+    Returns: true if code is a valid ICD-10 block, otherwise false
+     */
     public boolean isBlock(String code){
         code = addDotToCode(code);
         if (codeToNode.containsKey(code)){
@@ -165,6 +196,11 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    It checks whether a String is a valid category in ICD-10.
+    Parameters: code is the String that must be checked
+    Returns: true if code is a valid ICD-10 category, otherwise false
+     */
     public boolean isCategory(String code){
         code = addDotToCode(code);
         if (codeToNode.containsKey(code)){
@@ -174,6 +210,11 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    It checks whether a String is a valid subcategory in ICD-10.
+    Parameters: code is the String that must be checked
+    Returns: true if code is a valid ICD-10 subcategory, otherwise false
+     */
     public boolean isSubcategory(String code){
         code = addDotToCode(code);
         if (codeToNode.containsKey(code)){
@@ -183,24 +224,46 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    It checks whether a String is a valid chapter or block in ICD-10.
+    Parameters: code is the String that must be checked
+    Returns: true if code is a valid ICD-10 chapter or block, otherwise false
+     */
     public boolean isChapterOrBlock(String code){
         return isBlock(code)||isChapter(code);
     }
 
+    /*
+    It checks whether a String is a valid category or subcategory in ICD-10.
+    Parameters: code is the String that must be checked
+    Returns: true if code is a valid ICD-10 category or subcategory, otherwise false
+     */
     public boolean isCategoryOrSubcategory(String code){
         return isCategory(code)||isSubcategory(code);
     }
 
+    /*
+    Given a String that contains an ICD-10 code, it returns the description of said code.
+    Parameters: code is the ICD-10 code
+    Returns: the description of code
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public String getDescription(String code) throws IllegalArgumentException{
         if(!isValidItem(code)){
-            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD-10 code.");
         }
         return codeToNode.get(addDotToCode(code)).getDescription();
     }
 
+    /*
+    Given a String that contains an ICD-10 code, it returns its parent in the ICD-10 classification (or an empty string if it has not parent).
+    Parameters: code is the ICD-10 code
+    Returns: a String containing the parent of code (an empty string if code has no parent).
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public String getParent(String code) throws IllegalArgumentException{
         if(!isValidItem(code)){
-            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD-10 code.");
         }
         ICDNode parentNode = codeToNode.get(addDotToCode(code)).getParent();
         if(parentNode==null){
@@ -210,9 +273,15 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    Given a String that contains an ICD-10 code, it returns the list of the children of said code in the ICD-10 classification.
+    Parameters: code is the ICD-10 code
+    Returns: an ArrayList<String> containing all the children of code
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public ArrayList<String> getChildren(String code) throws IllegalArgumentException{
         if(!isValidItem(code)){
-            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD-10 code.");
         }
         ArrayList<ICDNode> childrenNodes = codeToNode.get(addDotToCode(code)).getChildren();
         ArrayList<String> result = new ArrayList<>();
@@ -222,17 +291,29 @@ public class ICD10CodesManipulator {
         return result;
     }
 
+    /*
+    Given a String that contains an ICD-10 code, it checks whether that code is a leaf in the ICD-10 classification.
+    Parameters: code is the ICD-10 code
+    Returns: true if code is a leaf in the ICD-10 classification (that is, if it has no children), false otherwise
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public boolean isLeaf(String code) throws IllegalArgumentException{
         if(!isValidItem(code)){
-            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD-10 code.");
         }
         ArrayList<ICDNode> childrenNodes = codeToNode.get(addDotToCode(code)).getChildren();
         return childrenNodes.size()==0;
     }
 
+    /*
+    Given a String that contains an ICD-10 code, it returns the list of the ancestors of said code in the ICD-10 classification.
+    Parameters: code is the ICD-10 code
+    Returns: an ArrayList<String> containing all the ancestor of code, ordered from the closer to the furthest
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public ArrayList<String> getAncestors(String code) throws IllegalArgumentException{
         if(!isValidItem(code)){
-            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD-10 code.");
         }
         ICDNode node = codeToNode.get(addDotToCode(code));
         ArrayList<String> result = new ArrayList<>();
@@ -243,9 +324,15 @@ public class ICD10CodesManipulator {
         return result;
     }
 
+    /*
+    Given a String that contains an ICD-10 code, it returns the list of the descendants of said code in the ICD-10 classification.
+    Parameters: code is the ICD-10 code
+    Returns: an ArrayList<String> containing all the descendants of code, ordered as in a depth-first pre-order visit
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public ArrayList<String> getDescendants(String code) throws IllegalArgumentException{
         if(!isValidItem(code)){
-            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD-10 code.");
         }
         ICDNode node = codeToNode.get(addDotToCode(code));
         ArrayList<String> result = new ArrayList<>();
@@ -253,6 +340,9 @@ public class ICD10CodesManipulator {
         return result;
     }
 
+    /*
+    Private method that adds an ICDNode and its children (their String representations) to a list.
+     */
     private void addChildrenToList(ICDNode node, ArrayList<String> list){
         for(ICDNode child: node.getChildren()){
             list.add(child.name);
@@ -260,18 +350,39 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    It checks whether a code (a) is one of the ancestors of another code (b). A code is never an ancestor of itself.
+    Parameters: a is the code that may or may not be an ancestor of b
+                b is the code that whose ancestors could include a
+    Returns: true if a is one of the ancestors of b, false otherwise
+    Throws: IllegalArgumentException if a or b are not a valid ICD-10 code
+     */
     public boolean isAncestor(String a, String b) throws IllegalArgumentException{
         if(!isValidItem(a)){
-            throw new IllegalArgumentException("\""+a+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+a+"\" is not a valid ICD-10 code.");
         }
         ICDNode node = codeToNode.get(addDotToCode(a));
         return getAncestors(b).contains(a) && !a.equals(b);
     }
 
+    /*
+    It checks whether a code (a) is one of the descendants of another code (b). A code is never a descendant of itself.
+    Parameters: a is the code that may or may not be a descendant of b
+                b is the code that whose descendants could include a
+    Returns: true if a is one of the descendants of b, false otherwise
+    Throws: IllegalArgumentException if a or b are not a valid ICD-10 code
+     */
     public boolean isDescendant(String a, String b) throws IllegalArgumentException{
         return isAncestor(b,a);
     }
 
+    /*
+    Given two ICD-10 codes a and b, it returns their nearest common ancestor in the ICD-10 classification (or an empy string if they don't have a nearest common ancestor).
+    Parameters: a is an ICD-10 code
+                b is an ICD-10 code
+    Returns: the nearest common ancestor of a and b if it exists, an empty string otherwise.
+    Throws: IllegalArgumentException if a or b are not a valid ICD-10 code
+     */
     public String getNearestCommonAncestor(String a, String b) throws IllegalArgumentException{
         ArrayList<String> ancestorsA = getAncestors(a);
         ancestorsA.add(0,addDotToCode(a));
@@ -290,6 +401,11 @@ public class ICD10CodesManipulator {
         return "";
     }
 
+    /*
+    It returns an ArrayList<String> that contains all the codes in the ICD-10 classification, ordered as in a depth-first pre-order visit.
+    Parameters: withDots is a boolean that controls whether the codes in the list that is returned are in the format with or without the dot.
+    Returns: the list of all the codes in the ICD-10 classification, ordered as in a depth-first pre-order visit, in the format with the dot if withDots is true, in the format without the dot otherwise.
+     */
     public ArrayList<String> getAllCodes(boolean withDots){
         if (withDots){
             return (ArrayList<String>) allCodesList.clone();
@@ -298,13 +414,23 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    It returns an ArrayList<String> that contains all the codes in the ICD-10 classification, ordered as in a depth-first pre-order visit.
+    Returns: the list of all the codes in the ICD-10 classification, ordered as in a depth-first pre-order visit, in the format with the dot
+         */
     public ArrayList<String> getAllCodes(){
         return getAllCodes(true);
     }
 
+    /*
+    It returns the index of a particular code in the list returned by getAllCodes.
+    Parameters: code is the code whose index we want to find
+    Returns: the index of code in the list returned by getAllCodes
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public int getIndex(String code) throws IllegalArgumentException{
         if(!isValidItem(code)){
-            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD 10 code.");
+            throw new IllegalArgumentException("\""+code+"\" is not a valid ICD-10 code.");
         }
         code = addDotToCode(code);
         if (codeToIndexMap.containsKey(code)){
@@ -316,10 +442,22 @@ public class ICD10CodesManipulator {
         }
     }
 
+    /*
+    Given an ICD-10 code, it returns the same code in the format without the dot.
+    Parameters: code is an ICD-10 code
+    Returns: the same code in the format without the dot
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public String removeDot(String code) throws IllegalArgumentException{
         return allCodesListNoDots.get(getIndex(code));
     }
 
+    /*
+    Given an ICD-10 code, it returns the same code in the format with the dot.
+    Parameters: code is an ICD-10 code
+    Returns: the same code in the format with the dot
+    Throws: IllegalArgumentException if code is not a valid ICD-10 code
+     */
     public String addDot(String code) throws IllegalArgumentException{
         return allCodesList.get(getIndex(code));
     }
