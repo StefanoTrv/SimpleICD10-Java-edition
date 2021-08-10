@@ -67,7 +67,7 @@ This method takes a string as input and returns true if the string is a valid ch
 Parameters:  
 &ensp;&ensp;`code` is the String that must be checked  
 Returns:  
-&ensp;&ensp;true if code is a valid ICD-10 code, otherwise false
+&ensp;&ensp;true if `code` is a valid ICD-10 code, otherwise false
 ```Java
 icd.isValidItem("cat")
 //false
@@ -80,7 +80,7 @@ This method takes a string as input and returns true if the string is a valid ca
 Parameters:  
 &ensp;&ensp;`code` is the String that must be checked  
 Returns:  
-&ensp;&ensp;true if code is a valid ICD-10 category or subcategory, otherwise false
+&ensp;&ensp;true if `code` is a valid ICD-10 category or subcategory, otherwise false
 ```Java
 icd.isCategoryOrSubcategory("A00-B99")
 //false
@@ -93,7 +93,7 @@ This method takes a string as input and returns true if the string is a valid ch
 Parameters:  
 &ensp;&ensp;`code` is the String that must be checked  
 Returns:  
-&ensp;&ensp;true if code is a valid ICD-10 chapter or block, otherwise false
+&ensp;&ensp;true if `code` is a valid ICD-10 chapter or block, otherwise false
 ```Java
 icd.isChapterOrBlock("A00-B99")
 //true
@@ -106,7 +106,7 @@ This method takes a string as input and returns true if the string is a valid ch
 Parameters:  
 &ensp;&ensp;`code` is the String that must be checked  
 Returns:  
-&ensp;&ensp;true if code is a valid ICD-10 chapter, otherwise false
+&ensp;&ensp;true if `code` is a valid ICD-10 chapter, otherwise false
 ```Java
 icd.isChapter("XII")
 //true
@@ -119,7 +119,7 @@ This method takes a string as input and returns true if the string is a valid bl
 Parameters:  
 &ensp;&ensp;`code` is the String that must be checked  
 Returns:  
-&ensp;&ensp;true if code is a valid ICD-10 block, otherwise false
+&ensp;&ensp;true if `code` is a valid ICD-10 block, otherwise false
 ```Java
 icd.isBlock("A00-B99")
 //true
@@ -132,7 +132,7 @@ This method takes a string as input and returns true if the string is a valid ca
 Parameters:  
 &ensp;&ensp;`code` is the String that must be checked  
 Returns:  
-&ensp;&ensp;true if code is a valid ICD-10 category, otherwise false
+&ensp;&ensp;true if `code` is a valid ICD-10 category, otherwise false
 ```Java
 icd.isCategory("B99")
 //true
@@ -145,7 +145,7 @@ This method takes a string as input and returns true if the string is a valid su
 Parameters:  
 &ensp;&ensp;`code` is the String that must be checked  
 Returns:  
-&ensp;&ensp;true if code is a valid ICD-10 subcategory, otherwise false
+&ensp;&ensp;true if `code` is a valid ICD-10 subcategory, otherwise false
 ```Java
 icd.isSubcategory("B95.1")
 //true
@@ -277,7 +277,7 @@ This method takes a string as input. If the string is a valid ICD-10 code, it re
 Parameters:  
 &ensp;&ensp;`code` is an ICD-10 code  
 Returns:  
-&ensp;&ensp;true if code is a leaf in the ICD-10 classification, false otherwise
+&ensp;&ensp;true if `code` is a leaf in the ICD-10 classification, false otherwise
 Throws:  
 &ensp;&ensp;`IllegalArgumentException` if `code` is not a valid ICD-10 code
 ```Java
