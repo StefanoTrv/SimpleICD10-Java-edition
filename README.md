@@ -16,15 +16,15 @@
   * [boolean isSubcategory(String code)](#boolean-issubcategorystring-code)
   * [String getDescription(String code)](#string-getdescriptionstring-code)
   * [String getParent(String code)](#string-getparentstring-code)
-  * [ArrayList<String> getChildren(String code)](#string-getparentstring-code)
-  * [ArrayList<String> getAncestors(String code)](#string-getparentstring-code)
-  * [ArrayList<String> getDescendants(String code)](#string-getparentstring-code)
+  * [ArrayList&lt;String&gt; getChildren(String code)](#arrayliststring-getchildrenstring-code)
+  * [ArrayList&lt;String&gt; getAncestors(String code)](#arrayliststring-getancestorsstring-code)
+  * [ArrayList&lt;String&gt; getDescendants(String code)](#arrayliststring-getdescendantsstring-code)
   * [boolean isAncestor(String a, String b)](#boolean-isancestorstring-a-string-b)
   * [boolean isDescendant(String a, String b)](#boolean-isdescendantstring-a-string-b)
   * [String getNearestCommonAncestor(String a, String b)](#string-getnearestcommonancestorstring-a-string-b)
   * [boolean isLeaf(String code)](#boolean-isleafstring-code)
-  * [ArrayList<String> getAllCodes(boolean withDots)](#boolean-isleafstring-code)
-  * [ArrayList<String> getAllCodes()](#boolean-isleafstring-code)
+  * [ArrayList&lt;String&gt; getAllCodes(boolean withDots)](#arrayliststring-getallcodesboolean-withdots)
+  * [ArrayList&lt;String&gt; getAllCodes()](#arrayliststring-getallcodes)
   * [int getIndex(String code)](#int-getindexstring-code)
   * [String removeDot(String code)](#string-removedotstring-code)
   * [String addDot(String code)](#string-adddotstring-code)
@@ -182,13 +182,13 @@ icd.getParent("C00")
 icd.getParent ("XII")
 //""
 ```
-### ArrayList<String> getChildren(String code)
-This method takes a string as input. If the string is a valid ICD-10 code, it returns an ArrayList<String> containing its children, otherwise it throws an IllegalArgumentException. If the code doesn't have children, it returns an empty ArrayList<String>.
+### ArrayList&lt;String&gt; getChildren(String code)
+This method takes a string as input. If the string is a valid ICD-10 code, it returns an ArrayList&lt;String&gt; containing its children, otherwise it throws an IllegalArgumentException. If the code doesn't have children, it returns an empty ArrayList&lt;String&gt;.
 
 Parameters:  
 &ensp;&ensp;`code` is an ICD-10 code  
 Returns:  
-&ensp;&ensp;an ArrayList<String> containing the children of the code `code`  
+&ensp;&ensp;an ArrayList&lt;String&gt; containing the children of the code `code`  
 Throws:  
 &ensp;&ensp;`IllegalArgumentException` if `code` is not a valid ICD-10 code
 ```Java
@@ -197,26 +197,26 @@ icd.getChildren("XII")
 icd.getChildren("H60.1")
 //[]
 ```
-### ArrayList<String> getAncestors(String code)
-This method takes a string as input. If the string is a valid ICD-10 code, it returns an ArrayList<String> containing all its ancestors in the ICD-10 classification, otherwise it throws an IllegalArgumentException. The results are ordered from its parent to its most distant ancestor.
+### ArrayList&lt;String&gt; getAncestors(String code)
+This method takes a string as input. If the string is a valid ICD-10 code, it returns an ArrayList&lt;String&gt; containing all its ancestors in the ICD-10 classification, otherwise it throws an IllegalArgumentException. The results are ordered from its parent to its most distant ancestor.
 
 Parameters:  
 &ensp;&ensp;`code` is an ICD-10 code  
 Returns:  
-&ensp;&ensp;an ArrayList<String> containing the ancestors of the code `code`  
+&ensp;&ensp;an ArrayList&lt;String&gt; containing the ancestors of the code `code`  
 Throws:  
 &ensp;&ensp;`IllegalArgumentException` if `code` is not a valid ICD-10 code
 ```Java
 icd.getAncestors("H60.1")
 //[H60, H60-H62, VIII]
 ```
-### ArrayList<String> getDescendants(String code)
-This method takes a string as input. If the string is a valid ICD-10 code, it returns an ArrayList<String> containing all its descendants in the ICD-10 classification, otherwise it throws an IllegalArgumentException. The returned codes are ordered as in a pre-order depth-first traversal of the tree containing the ICD-10 classification.
+### ArrayList&lt;String&gt; getDescendants(String code)
+This method takes a string as input. If the string is a valid ICD-10 code, it returns an ArrayList&lt;String&gt; containing all its descendants in the ICD-10 classification, otherwise it throws an IllegalArgumentException. The returned codes are ordered as in a pre-order depth-first traversal of the tree containing the ICD-10 classification.
 
 Parameters:  
 &ensp;&ensp;`code` is an ICD-10 code  
 Returns:  
-&ensp;&ensp;an ArrayList<String> containing the descendants of the code `code`  
+&ensp;&ensp;an ArrayList&lt;String&gt; containing the descendants of the code `code`  
 Throws:  
 &ensp;&ensp;`IllegalArgumentException` if `code` is not a valid ICD-10 code
 ```Java
@@ -287,8 +287,8 @@ icd.isLeaf("H28.0")
 //true
 //""
 ```
-### ArrayList<String> getAllCodes(boolean withDots)
-This method takes a boolean for input and returns an ArrayList<String> containing all the items in the ICD-10 classification. If 'withDots' is true, the subcategories in the ArrayList<String> will have a dot in them, if it's false the subcategories won't have a dot in them.
+### ArrayList&lt;String&gt; getAllCodes(boolean withDots)
+This method takes a boolean for input and returns an ArrayList&lt;String&gt; containing all the items in the ICD-10 classification. If 'withDots' is true, the subcategories in the ArrayList&lt;String&gt; will have a dot in them, if it's false the subcategories won't have a dot in them.
 
 Parameters:  
 &ensp;&ensp;withDots is a boolean that controls whether the codes in the list that is returned are in the format with or without the dot.  
@@ -300,8 +300,8 @@ icd.getAllCodes(true)
 icd.get_all_codes(false)
 //[I, A00-A09, A00, A000, A001, A009, A01, A010, ...
 ```
-### ArrayList<String> getAllCodes()
-This method takes a boolean for input and returns the list of all the items in the ICD-10 classification. The codes in the ArrayList<String> are in the format with the dot.
+### ArrayList&lt;String&gt; getAllCodes()
+This method takes a boolean for input and returns the list of all the items in the ICD-10 classification. The codes in the ArrayList&lt;String&gt; are in the format with the dot.
 
 Returns:  
 &ensp;&ensp;the list of all the codes in the ICD-10 classification, ordered as in a depth-first pre-order visit
@@ -373,4 +373,4 @@ Curecoin: BJdY5wCjN79bnq7jYLSowR7THzdm1CFDT9
 
 Bitcoin: bc1qt5w3x89x546z5kwthu9hcyh5tcxr6rdf6t6uvr
 
-<sub>*let me know if your favorite donation method is not in this list*</sub>
+&lt;sub&gt;*let me know if your favorite donation method is not in this list*&lt;/sub&gt;
