@@ -22,14 +22,14 @@ public class ICD10CodesManipulator {
     The constructor that reads the data from the xml file to load all the data relative to the ICD-10 classification.
     Throws: IOException if an error occurs while trying to read the file (or if there's a configuration error relative to the DOM objects)
      */
-    public ICD10CodesManipulator() throws IOException {
+    public ICD10CodesManipulator(){
         Document document;
         try{
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            document = builder.parse(new File( "data\\icd_10_v2019.xml" ));
+            document = builder.parse(getClass().getResourceAsStream("icd_10_v2019.xml"));
         } catch (Exception e){
-            throw new IOException(e);
+            throw new RuntimeException(e);
         }
 
         document.getDocumentElement().normalize();
