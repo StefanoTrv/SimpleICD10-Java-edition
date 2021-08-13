@@ -31,7 +31,7 @@
 * [Conclusion](#conclusion)
 
 ## Release notes
-```empty```
+* **1.0.0**: Initial release
 
 ## Introduction
 The scope of this library is to provide a simple instrument for dealing with ICD-10 codes in your Java projects. It provides ways to check whether a code exists, to find its ancestors and descendants, to see its description and much more.  
@@ -54,9 +54,6 @@ ICD10CodesManipulator icd = new ICD10CodesManipulator();
 ```
 ### ICD10CodesManipulator()
 It creates a new ICD10CodesManipulator by loading and preparing the data of the ICD-10 classification.
-
-Throws:  
-&ensp;&ensp;`IOException` if an error occurs while reading the ICD-10 data.
 
 ```Java
 ICD10CodesManipulator icd = new ICD10CodesManipulator();
