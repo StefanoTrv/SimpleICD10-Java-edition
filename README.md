@@ -371,4 +371,4 @@ Curecoin: BJdY5wCjN79bnq7jYLSowR7THzdm1CFDT9
 
 Bitcoin: bc1qt5w3x89x546z5kwthu9hcyh5tcxr6rdf6t6uvr
 
-&lt;sub&gt;*let me know if your favorite donation method is not in this list*&lt;/sub&gt;
+<sub>*let me know if your favorite donation method is not in this list*</sub>
