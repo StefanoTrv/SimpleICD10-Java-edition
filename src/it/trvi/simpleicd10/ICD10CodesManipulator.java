@@ -1,9 +1,8 @@
-package it.trv.simpleicd10;
+package it.trvi.simpleicd10;
 
 import org.w3c.dom.*;
 
 import javax.xml.parsers.*;
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
