@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"it.trvi.simpleicd10","l":"ICD10CodesManipulator"}];updateSearchResults();
