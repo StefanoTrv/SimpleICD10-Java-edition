@@ -4,6 +4,7 @@
 ## Index
 * [Release notes](#release-notes)
 * [Introduction](#introduction)
+* [Setup](#setup)
 * [What a code is and how it looks like](#what-a-code-is-and-how-it-looks-like)
 * [Documentation](#documentation)
   * [ICD10CodesManipulator()](icd10codesmanipulator)
@@ -42,6 +43,9 @@ If you are looking for a Python version of this project, you can check the [simp
 In the ["data" folder](https://github.com/StefanoTrv/SimpleICD10-Java-edition/tree/master/data) you can find an XML file that contains the entire ICD-10 classification.
 
 All the classes in this library are contained in the package "`it.trvi.simpleicd10`".
+
+## Setup
+You can download the jar containing the most recent recent version of this library from the [releases page on Github](https://github.com/StefanoTrv/SimpleICD10-Java-edition/releases).
 
 ## What a code is and how it looks like
 We need to start by clarifying what a code is for us. The [ICD-10 instruction manual](https://icd.who.int/browse10/Content/statichtml/ICD10Volume2_en_2019.pdf) makes a distinction between **chapters**, **block of categories**, **three-character categories** and **four-character subcategories** (which from now on we'll refer to as chapters, blocks, categories and subcategories), with a few additional five-character subcategories: we will consider all these items as codes.
