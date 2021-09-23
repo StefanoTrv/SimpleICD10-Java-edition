@@ -37,7 +37,8 @@
 
 ## Introduction
 The scope of this library is to provide a simple instrument for dealing with ICD-10 codes in your Java projects. It provides ways to check whether a code exists, to find its ancestors and descendants, to see its description and much more.  
-The codes and their descriptions were taken from [this page](https://icd.who.int/browse10/2019/en#) in the WHO's website and are referred to the **2019 version of ICD-10**.  If you are looking for a library that deals with ICD-10 codes instead of ICD-10-CM codes, you can check the [SimpleICD10CM-Java-edition library](https://github.com/StefanoTrv/SimpleICD10CM-Java-edition), which is based on the 2019 version of ICD-10.  
+The codes and their descriptions were taken from [this page](https://icd.who.int/browse10/2019/en#) in the WHO's website and are referred to the **2019 version of ICD-10**.
+If you are looking for a library that deals with ICD-10 codes instead of ICD-10-CM codes, you can check the [SimpleICD10CM-Java-edition library](https://github.com/StefanoTrv/SimpleICD10CM-Java-edition), which is based on the 2019 version of ICD-10.  
 If you are looking for a Python version of this project, you can check the [simple_icd_10 library](https://github.com/StefanoTrv/simple_icd_10).
 
 In the ["data" folder](https://github.com/StefanoTrv/SimpleICD10-Java-edition/tree/master/data) you can find an XML file that contains the entire ICD-10 classification.
