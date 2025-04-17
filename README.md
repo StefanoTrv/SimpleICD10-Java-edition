@@ -32,7 +32,7 @@
 * [Conclusion](#conclusion)
 
 ## Release notes
-* **1.1.0**: Fixed X85-Y09 being a child instead of a sibling of X60-X84.
+* **1.0.2**: Fixed X85-Y09 being a child instead of a sibling of X60-X84.
 * **1.0.1**: Renamed package: "it.trv.simpleicd10" -> "it.trvi.simpleicd10"
 * **1.0.0**: Initial release
 
